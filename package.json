@@ -1,0 +1,25 @@
+{
+  "name": "notes-app-api",
+  "version": "1.0.0",
+  "description": "This is a test for AWS serverless and react",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/death667b/notes-app-api.git"
+  },
+  "keywords": [
+    "React",
+    "AWS",
+    "ServerLess",
+    "NodeJS"
+  ],
+  "author": "Ian Daniel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/death667b/notes-app-api/issues"
+  },
+  "homepage": "https://github.com/death667b/notes-app-api#readme"
+}
