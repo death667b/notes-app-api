@@ -8,7 +8,7 @@ plugins:
 custom:
   webpackIncludeModules: true
 
-providor:
+provider:
   name: aws
   runtime: nodejs6.10
   stage: prod
