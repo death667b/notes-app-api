@@ -47,6 +47,6 @@ functions:
     events:
       - http:
           path: notes/{id}
-          methods: get
+          method: get
           cors: true
           authorizer: aws_iam
