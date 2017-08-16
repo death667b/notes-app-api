@@ -8,8 +8,8 @@ export async function main(event, context, callback) {
         // - 'userId': Identify pool identity id of the authenticated user
         // - 'noteId': path parameter
         Key: {
-            userId: event.requstContext.identity.cognitoIdentityId,
-            noteId: event.pathParameter.id,
+            userId: event.requestContext.identity.cognitoIdentityId,
+            noteId: event.pathParameters.id,
         },
     };
 
