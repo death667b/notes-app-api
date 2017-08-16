@@ -1,4 +1,4 @@
-import * as dynamoDbLib from './libs/dynamoDb-Lib';
+import * as dynamoDbLib from './libs/dynamodb-Lib';
 import {success,failure} from './libs/response-lib';
 
 export async function main(event, context, callback) {
