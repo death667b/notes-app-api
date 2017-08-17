@@ -1,5 +1,5 @@
 import * as dynamoDbLib from './libs/dynamoodb-lib.js';
-import {success,failure} from './libs/repsonse-lib.js';
+import {success,failure} from './libs/response-lib.js';
 
 export async function main(event, context, callback) {
     const data = JSON.parse(event.body);
