@@ -10,12 +10,12 @@ export async function main(event, context, callback) {
         // - 'noteId': path parameter
         Key: {
             userId: event.requestContext.identity.cognitoIdentityId,
-            noteId: event.pathParamenter.id,
+            noteId: event.pathParameters.id,
         },
         // 'UpdateExpression' defines the attributes to be updates
         // 'ExpressAttributeValues' defines the value in the update express
         UpdateExpression: 'SET content = :content, attachment = :attachment',
-        ExpressAttributeValues: {
+        ExpressionAttributeValues: {
             ':attachment': data.attachment ? data.attachment : null,
             ':content' : data.content ? data.content : null,
         },
