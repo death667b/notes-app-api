@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {Navbar, Nav, NavItem} from 'react-bootstrap';
 import Routes from './Routes';
 import './App.css';
 
 class App extends Component {
-  handleNavLink = () => {
-    alert('tt');
+  handleNavLink = (event) => {
+    event.preventDefault();
+    this.props.history.push(event.currentTarget.getAttribute('href'));
   }
 
   render() {
@@ -20,7 +21,7 @@ class App extends Component {
             <Navbar.Toggle />
           </ Navbar.Header>
           <Navbar.Collapse>
-            <Nav pullright>
+            <Nav pullRight>
               <NavItem onClick={this.handleNavLink} href='/signup'>Sign Up</ NavItem>
               <NavItem onClick={this.handleNavLink} href='/login'>Login</ NavItem>
             </ Nav>
@@ -32,4 +33,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
