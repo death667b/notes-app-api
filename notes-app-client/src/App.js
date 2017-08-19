@@ -27,7 +27,8 @@ class App extends Component {
 
   render() {
     const childProps = {
-      
+      userToken: this.state.userToken,
+      updateUserToken: this.updateUserToken,      
     }
 
     return (
@@ -46,7 +47,7 @@ class App extends Component {
             </ Nav>
           </ Navbar.Collapse>
         </ Navbar>
-        <Routes />
+        <Routes childProps={childProps} />
       </div>
     );
   }
