@@ -26,7 +26,26 @@ class Login extends Component {
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId='username' bsSize='large'>
             <ControlLabel>Email</ControlLabel>
+            <FormControl
+              autoFocus
+              type='email'
+              value={this.state.username}
+              onChange={this.handleSubmit} />
           </FormGroup>
+          <FormGroup controlId='password' bsSize='large'>
+            <ControlLabel>Password</ControlLabel>
+            <FormControl
+              type='password'
+              value={this.state.password}
+              onChange={this.handleSubmit} />
+          </FormGroup>
+          <Button
+            block
+            bsSize='large'
+            disabled={!this.validateForm}
+            type='submit'>
+            Login
+          </Button>
         </form>
       </div>
     );
