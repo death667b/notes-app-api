@@ -6,12 +6,30 @@ import RouteNavItem from './components/RouteNavItem';
 import './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      userToken: null,
+    }
+  }
+
+  updateUserToken = (userToken) => {
+    this.setState({
+      userToken: userToken,
+    });
+  }
+
   handleNavLink = (event) => {
     event.preventDefault();
     this.props.history.push(event.currentTarget.getAttribute('href'));
   }
 
   render() {
+    const childProps = {
+      
+    }
+
     return (
       <div className="App container">
         <Navbar fluid collapseOnSelect>
