@@ -12,8 +12,7 @@ class Login extends Component {
     };
   }
 
-  validateForm() {
-    console.log('u: ', this.state.username.length, 'p: ', this.state.password.length)
+  validateForm = () => {
     return this.state.username.length > 0 && this.state.password.length > 0;
   }
 
@@ -49,7 +48,7 @@ class Login extends Component {
           <Button
             block
             bsSize='large'
-            disabled={!this.validateForm}
+            disabled={!this.validateForm()}
             type='submit'>
             Login
           </Button>
