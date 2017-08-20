@@ -13,7 +13,26 @@ class App extends Component {
 
     this.state = {
       userToken: null,
+      isLoadingUserToken: true,
     }
+  }
+
+  async componentDidMount(){
+    const currentUser = this.getCurrentUser();
+
+    if (currentUser === null) {
+      this.setState({isLoadingUserToken: false});
+      return;
+    }
+
+    try {
+      const userToken = await this.getUserToken(currentUser);
+      this.updateUserToken(userToken);
+    } catch(e) {
+      alert(e);
+    }
+
+    this.setState({isLoadingUserToken: false});
   }
 
   getCurrentUser = () => {
