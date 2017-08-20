@@ -52,7 +52,7 @@ class App extends Component {
           return;
         }
 
-        resolve(session.getIdToken().getJwtToekn());
+        resolve(session.getIdToken().getJwtToken());
       });
     });
   }
