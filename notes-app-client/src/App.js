@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Link, withRouter} from 'react-router-dom';
-import {Navbar, Nav} from 'react-bootstrap';
+import {Navbar, NavItem, Nav} from 'react-bootstrap';
 import Routes from './Routes';
 import RouteNavItem from './components/RouteNavItem';
 import './App.css';
@@ -18,6 +18,10 @@ class App extends Component {
     this.setState({
       userToken: userToken,
     });
+  }
+
+  handleLogout = () => {
+    this.updateUserToken(null);
   }
 
   handleNavLink = (event) => {
@@ -42,8 +46,10 @@ class App extends Component {
           </ Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
-              <RouteNavItem onClick={this.handleNavLink} href='/signup'>Sign Up</ RouteNavItem>
-              <RouteNavItem onClick={this.handleNavLink} href='/login'>Login</ RouteNavItem>
+              { this.state.userToken
+                ? <NavItem onClick={this.handleLogout}>Logout</NavItem> 
+                : [ <RouteNavItem onClick={this.handleNavLink} href='/signup'>Sign Up</ RouteNavItem>,
+              <RouteNavItem onClick={this.handleNavLink} href='/login'>Login</ RouteNavItem> ]}
             </ Nav>
           </ Navbar.Collapse>
         </ Navbar>
