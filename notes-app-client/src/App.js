@@ -78,7 +78,7 @@ class App extends Component {
       updateUserToken: this.updateUserToken,      
     }
 
-    return (
+    return !this.state.isLoadingUserToken && (
       <div className="App container">
         <Navbar fluid collapseOnSelect>
           <Navbar.Header>
