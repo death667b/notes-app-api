@@ -72,8 +72,8 @@ class App extends Component {
             <Nav pullRight>
               { this.state.userToken
                 ? <NavItem onClick={this.handleLogout}>Logout</NavItem> 
-                : [ <RouteNavItem onClick={this.handleNavLink} href='/signup'>Sign Up</ RouteNavItem>,
-              <RouteNavItem onClick={this.handleNavLink} href='/login'>Login</ RouteNavItem> ]}
+                : [ <RouteNavItem onClick={this.handleNavLink} key={1} href='/signup'>Sign Up</ RouteNavItem>,
+              <RouteNavItem onClick={this.handleNavLink} key={2} href='/login'>Login</ RouteNavItem> ]}
             </ Nav>
           </ Navbar.Collapse>
         </ Navbar>
