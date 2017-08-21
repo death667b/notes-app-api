@@ -67,6 +67,7 @@ class App extends Component {
     const currentUser = this.getCurrentUser();
     if (currentUser !== null) currentUser.signOut();
     this.updateUserToken(null);
+    this.props.history.push('/login');
   }
 
   handleNavLink = (event) => {
