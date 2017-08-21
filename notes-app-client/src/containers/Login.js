@@ -10,6 +10,7 @@ class Login extends Component {
     super(props);
 
     this.state = {
+      isLoading: false,
       username: '',
       password: '',
     };
@@ -27,6 +28,7 @@ class Login extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
+    this.setState({isLoading: true});
 
     try {
       const userToken = await this.login(this.state.username, this.state.password);
@@ -34,6 +36,7 @@ class Login extends Component {
       this.props.history.push('/');
     } catch(e) {
       alert(e);
+      this.setState({isLoading: false});
     }
   }
 
