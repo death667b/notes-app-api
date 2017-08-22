@@ -3,6 +3,7 @@ import {Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {CognitoUserPool, AuthenticationDetails, CognitoUser} from 'amazon-cognito-identity-js';
 import {withRouter} from 'react-router-dom';
 import config from '../config';
+import LoaderButton from '../components/LoaderButton';
 import './Login.css';
 
 class Login extends Component {
@@ -81,13 +82,14 @@ class Login extends Component {
               value={this.state.password}
               onChange={this.handleChange} />
           </FormGroup>
-          <Button
-            block
+          <LoaderButton
+            bloack
             bsSize='large'
             disabled={!this.validateForm()}
-            type='submit'>
-            Login
-          </Button>
+            type='submit'
+            isLoading={this.state.isLoading}
+            text='Login'
+            loadingText='Loggin in...'/>
         </form>
       </div>
     );
