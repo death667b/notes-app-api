@@ -51,7 +51,7 @@ class Signup extends Component {
     renderConfirmationForm = () => {
         return (
             <form onSubmit={this.handleConfirmationSubmit}>
-                <FormGroup controlId='conformationCode' bsSize='large'>
+                <FormGroup controlId='confirmationCode' bsSize='large'>
                     <ControlLabel>Confirmation Code</ControlLabel>
                     <FormControl
                         autoFocus
