@@ -47,6 +47,8 @@ class Signup extends Component {
 
         this.setState({isLoading: true});
     }
+
+    
 }
 
 export default withRouter(Signup);
