@@ -108,6 +108,18 @@ class Signup extends Component {
             </form>
         );
     }
+
+    render() {
+        return (
+            <div className='Signup'>
+                {
+                    this.state.newUser === null
+                    ? this.renderForm()
+                    : this.renderConfirmationForm()
+                }
+            </div>
+        )
+    }
 }
 
 export default withRouter(Signup);
