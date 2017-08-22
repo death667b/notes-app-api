@@ -48,7 +48,66 @@ class Signup extends Component {
         this.setState({isLoading: true});
     }
 
-    
+    renderConfirmationForm = () => {
+        return (
+            <form onSubmit={this.handleConfirmationSubmit}>
+                <FormGroup controlId='conformationCode' bsSize='large'>
+                    <ControlLabel>Confirmation Code</ControlLabel>
+                    <FormControl
+                        autoFocus
+                        type='tel'
+                        value={this.state.confirmationCode}
+                        onChange={this.handleChange} />
+                    <HelpBlock>Please check your email for the code.</HelpBlock>
+                </FormGroup>
+                <LoaderButton
+                    block 
+                    bsSize='large'
+                    disabled={!this.validateConfirmationForm()}
+                    type='submit'
+                    isLoading={this.state.isLoading}
+                    text='Verify'
+                    loadingText='Verifying...' />
+            </form>
+        );
+    }
+
+    renderForm = () => {
+        return (
+            <form onSubmit={this.handleSubmit}>
+                <FormGroup controlId='username' bsSize='large'>
+                    <ControlLabel>Email</ControlLabel>
+                    <FormControl
+                        autoFocus
+                        type='email'
+                        value={this.state.username}
+                        onChange={this.handleChange} />
+                </FormGroup>
+                <FormGroup controlId='password' bsSize='large'>
+                    <ControlLabel>Password</ControlLabel>
+                    <FormControl
+                        type='password'
+                        value={this.state.password}
+                        onChange={this.handleChange} />
+                </FormGroup>
+                <FormGroup controlId='confirmPassword' bsSize='large'>
+                    <ControlLabel>Confirm Password</ControlLabel>
+                    <FormControl
+                        type='password'
+                        value={this.state.confirmPassword}
+                        onChange={this.handleChange} />
+                </FormGroup>
+                <LoaderButton
+                    block
+                    bsSize='large'
+                    disabled={!this.validateForm()}
+                    type='submit'
+                    isLoading={this.state.isLoading}
+                    text='Sign Up'
+                    loadingText='Signing Up...' />
+            </form>
+        );
+    }
 }
 
 export default withRouter(Signup);
