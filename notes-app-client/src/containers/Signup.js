@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {HelpBlock, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {AuthenticationDetails, CognitoUserPool, CognitoUserAttribute} from 'amazon-cognito-identity-js';
 import LoaderButton from '../components/LoaderButton';
+import config from '../config.js';
 import './Signup.css';
 
 class Signup extends Component {
