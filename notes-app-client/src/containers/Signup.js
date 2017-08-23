@@ -93,7 +93,7 @@ class Signup extends Component {
         ));
     }
 
-    confim = (user, confirmationCode) => {
+    confirm = (user, confirmationCode) => {
         return new Promise( (resolve, reject) => (
             user.confirmRegistration(confirmationCode, true, (err, result) => {
                 if (err) {
