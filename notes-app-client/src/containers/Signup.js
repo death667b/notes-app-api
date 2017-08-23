@@ -40,7 +40,16 @@ class Signup extends Component {
         event.preventDefault();
 
         this.setState({isLoading: true});
-        this.setState({newUser: 'test'});
+        
+        try {
+            const newUser = await this.signup(this.state.username, this.state.password);
+            this.setState({
+                newUser,
+            })
+        } catch(e) {
+            alert(e);
+        }
+
         this.setState({isLoading: false});
     }
 
@@ -48,6 +57,68 @@ class Signup extends Component {
         event.preventDefault();
 
         this.setState({isLoading: true});
+
+        try {
+            await this.confirm(this.state.newUser, this.state.confirmationCode);
+            const userToken = await this.authenticate(
+                this.state.newUser,
+                this.state.username,
+                this.state.password,
+            );
+
+            this.props.updateUserToken(userToken);
+            this.props.history.push('/');
+        } catch(e) {
+            alert(e);
+            this.setState({isLoading: false});
+        }
+    }
+
+    signup = (username, password) => {
+        const userPool = new CognitoUserPool({
+            UserPoolId: config.cognito.USER_POOL_ID,
+            ClientId: config.cognito.APP_CLIENT_ID,
+        });
+        const attributeEmail = new CognitoUserAttribute({Name: 'email', Value: username});
+
+        return new Promise( (resolve, reject) => (
+            userPool.signUp(username, password, [attributeEmail], null, (err, result) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve(result.user);
+            })
+        ));
+    }
+
+    confim = (user, confirmationCode) => {
+        return new Promise( (resolve, reject) => (
+            user.confirmRegistration(confirmationCode, true, (err, result) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve(result);
+            })
+        ));
+    }
+
+    authenticate = (user, username, password) => {
+        const authenticationData = {
+            Username: username,
+            Password: password,
+        };
+        const authenticationDetails = new AuthenticationDetails(authenticationData);
+
+        return new Promise( (resolve, reject) => (
+            user.authenticateUser(authenticationDetails, {
+                onSuccess: (result) => resolve(result.getIdToken().getJwtToken()),
+                onFailure: (err) => reject(err),
+            })
+        ));
     }
 
     renderConfirmationForm = () => {
