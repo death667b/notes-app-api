@@ -74,6 +74,10 @@ class Signup extends Component {
         }
     }
 
+    handleResendVerifcation = () => {
+        alert('resend');
+    }
+
     signup = (username, password) => {
         const userPool = new CognitoUserPool({
             UserPoolId: config.cognito.USER_POOL_ID,
@@ -178,6 +182,13 @@ class Signup extends Component {
                     isLoading={this.state.isLoading}
                     text='Sign Up'
                     loadingText='Signing Up...' />
+                <LoaderButton
+                    block
+                    bsSize='large'
+                    type='button'
+                    text='Resend Verifcation'
+                    onClick={this.handleResendVerifcation}
+                    loadingText='Resending...' />
             </form>
         );
     }
