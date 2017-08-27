@@ -39,5 +39,5 @@ export async function invokeApig({path, method = 'GET', headers = {}, queryParam
         throw new Error(await results.text());
     }
 
-    return results;
+    return results; // this orginally have results.json() but this blows up
 }
