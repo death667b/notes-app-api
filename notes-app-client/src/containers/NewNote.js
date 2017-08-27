@@ -40,7 +40,7 @@ class NewNote extends Component {
             return;
         }
 
-        this.setState({ isLoader: true });
+        this.setState({ isLoading: true });
 
         try {
             await this.createNote({
@@ -49,7 +49,7 @@ class NewNote extends Component {
             this.props.history.push('/');
         } catch(e) {
             alert(e);
-            this.setState({isLoader: false});
+            this.setState({isLoading: false});
         }
     }
 
