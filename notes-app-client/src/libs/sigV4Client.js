@@ -51,5 +51,51 @@ sigV4Client.newClient = (config) => {
         );
     }
 
-    
+    hashCanonicalRequest = (request) => {
+        return hexEncode(hash(request));
+    }
+
+    buildCanonicalUri = (Uri) => {
+        return encodeURI(Uri);
+    }
+
+    buildCanonicalQueryString = (queryParams) => {
+        if (Object.keys(queryParams).length < 1) return '';
+        let canonicalQueryString = '';
+        let sortedQueryParams = [];
+
+        for (let property in queryParams) {
+            if (queryParams.hasOwnProperty(property)) {
+                sortedQueryParams.push(property);
+            }
+        }
+        sortedQueryParams.sort();
+
+        for (let i = 0; i < sortedQueryParams.length; i++) {
+            canonicalQueryString +=
+                sortedQueryParams[i] +
+                '=' +
+                encodeURIComponent(queryParams[sortedQueryParams[i]]) +
+                '&';
+         }
+         return canonicalQueryString.substr(0, canonicalQueryString.length - 1);
+    }
+
+    buildCanonicalHeaders = (headers) => {
+        let canonicalHeaders = '';
+        let sortedKeys = [];
+        for (let property in headers) {
+            if(headers.hasOwnProperty(property)) {
+                sortedKeys.push(property);
+            }
+        }
+        sortedKeys.sort();
+
+        for (let i = 0; i < sortedKeys.length; i++) {
+            canonicalHeaders += 
+                sortedKeys[i].toLowerCase() + ":" +
+                headers[sortedKeys[i]] + '\n';
+        }
+        return canonicalHeaders;
+    }
 }
