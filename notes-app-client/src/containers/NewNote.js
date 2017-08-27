@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import LoaderButton from '../components/LoaderButton';
+import {invokeApig} from '../libs/awsLib';
 import config from '../config.js';
 import './NewNote.css';
 
@@ -40,6 +41,24 @@ class NewNote extends Component {
         }
 
         this.setState({ isLoader: true });
+
+        try {
+            await this.createNote({
+                content: this.state.content,
+            });
+            this.props.history.push('/');
+        } catch(e) {
+            alert(e);
+            this.setState({isLoader: false});
+        }
+    }
+
+    createNote = (note) => {
+        return invokeApig({
+            path: '/notes',
+            method: 'POST',
+            body: note,
+        }, this.props.userToken);
     }
 
     render() {
