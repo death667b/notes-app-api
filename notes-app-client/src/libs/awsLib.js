@@ -42,7 +42,7 @@ export async function invokeApig({path, method = 'GET', headers = {}, queryParam
     return results; // this orginally have results.json() but this blows up
 }
 
-export async function s3Uload(file, userToken) {
+export async function s3Upload(file, userToken) {
     await getAwsCredentials(userToken);
 
     const s3 = new AWS.S3({
