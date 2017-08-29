@@ -1,5 +1,8 @@
 export default {
     MAX_ATTACHMENT_SIZE: 5000000,
+    s3: {
+        BUCKET: 'spinnys-notes-app-upload', 
+    },
     apiGateway: {
         URL: 'https://ohzexixk93.execute-api.ap-southeast-2.amazonaws.com/prod',
         REGION: 'ap-southeast-2',
