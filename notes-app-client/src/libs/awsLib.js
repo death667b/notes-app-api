@@ -47,7 +47,7 @@ export async function s3Uload(file, userToken) {
 
     const s3 = new AWS.S3({
         params: {
-            Bucket: config.s3.Bucket,
+            Bucket: config.s3.BUCKET,
         }
     });
     const filename = `${AWS.config.credentials.IdentityId}-${Date.now()}-${file.name}`;
