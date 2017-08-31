@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {Navbar, NavItem, Nav} from 'react-bootstrap';
-import {CognitoUserPool} from 'amazon-cognito-identity-js';
+// import {CognitoUserPool} from 'amazon-cognito-identity-js';
 import {authUser, signOutUser} from './libs/awsLib';
 // import AWS from 'aws-sdk';
 // import config from './config';
