@@ -19,7 +19,7 @@ input[type=file] {
   width: 100%;
 }
 
-.spinning.glyphicon {
+/* .spinning.glyphicon {
   margin-right: 7px;
   top: 2px;
   animation: spin 1s infinite linear;
@@ -28,4 +28,4 @@ input[type=file] {
 @keyframes spin {
   from { transform: scale(1) rotate(0deg); }
   to { transform: scale(1) rotate(360deg); }
-}
+} */
