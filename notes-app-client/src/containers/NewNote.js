@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import LoaderButton from '../components/LoaderButton';
 import {invokeApig, s3Upload} from '../libs/awsLib';
 import config from '../config.js';
 import './NewNote.css';
 
-class NewNote extends Component {
+export default class NewNote extends Component {
     constructor(props) {
         super(props);
 
@@ -20,6 +19,14 @@ class NewNote extends Component {
 
     validateForm = () => {
         return this.state.content.length > 0;
+    }
+
+    createNote = (note) => {
+        return invokeApig({
+            path: '/notes',
+            method: 'POST',
+            body: note,
+        });
     }
 
     handleChange = (event) => {
@@ -58,14 +65,6 @@ class NewNote extends Component {
         }
     }
 
-    createNote = (note) => {
-        return invokeApig({
-            path: '/notes',
-            method: 'POST',
-            body: note,
-        }, this.props.userToken);
-    }
-
     render() {
         return (
             <div className='NewNote'>
@@ -96,5 +95,3 @@ class NewNote extends Component {
         );
     }
 }
-
-export default withRouter(NewNote);
