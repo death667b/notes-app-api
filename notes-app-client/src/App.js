@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {Navbar, NavItem, Nav} from 'react-bootstrap';
 import {CognitoUserPool} from 'amazon-cognito-identity-js';
+import AWS from 'aws-sdk';
 import config from './config';
 import Routes from './Routes';
 import RouteNavItem from './components/RouteNavItem';
@@ -66,6 +67,8 @@ class App extends Component {
   handleLogout = (event) => {
     const currentUser = this.getCurrentUser();
     if (currentUser !== null) currentUser.signOut();
+    if (AWS.config.credentials) AWS.config.credentials.clearCacheId();
+
     this.updateUserToken(null);
     this.props.history.push('/login');
   }
