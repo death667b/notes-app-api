@@ -3,22 +3,6 @@ import {CognitoUserPool} from 'amazon-cognito-identity-js';
 import config from '../config.js';
 import sigV4Client from './sigV4Client';
 
-export function getAwsCredentials(userToken) {
-    if (AWS.config.credentials && Date.now() < AWS.config.credentials.expireTime - 60000) return;
-
-    const authenticator = `cognito-idp.${config.cognito.REGION}.amazonaws.com/${config.cognito.USER_POOL_ID}`;
-
-    AWS.config.update({region: config.cognito.REGION});
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: config.cognito.IDENTITY_POOL_ID,
-        Logins: {
-            [authenticator]: userToken,
-        }
-    });
-
-    return AWS.config.credentials.getPromise();
-}
-
 export async function invokeApig({path, method = 'GET', headers = {}, queryParams = {}, body }) {
     if (!await authUser()) throw new Error('User not logged in');
     
@@ -94,8 +78,8 @@ const getUserToken = (currentUser) => {
                 return;
             }
             resolve(session.getIdToken().getJwtToken());
-        })
-    })
+        });
+    });
 }
 
 const getCurrentUser = () => {
@@ -106,7 +90,7 @@ const getCurrentUser = () => {
     return userPool.getCurrentUser();
 }
 
-getAwsCredentials = (userToken) => {
+const getAwsCredentials = (userToken) => {
     const authenticator = `cognito-idp.${config.cognito.REGION}.amazonaws.com/${config.cognito.USER_POOL_ID}`;
     AWS.config.update({region: config.cognito.REGION});
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
