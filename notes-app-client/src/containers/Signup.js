@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {HelpBlock, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
-import {AuthenticationDetails, CognitoUserPool} from 'amazon-cognito-identity-js';
+import {AuthenticationDetails, CognitoUserPool, CognitoUserAttribute} from 'amazon-cognito-identity-js';
 import LoaderButton from '../components/LoaderButton';
 import config from '../config.js';
 import './Signup.css';
@@ -78,10 +78,10 @@ export default class Signup extends Component {
             UserPoolId: config.cognito.USER_POOL_ID,
             ClientId: config.cognito.APP_CLIENT_ID,
         });
-        // const attributeEmail = new CognitoUserAttribute({Name: 'email', Value: username});
+        const attributeEmail = new CognitoUserAttribute({Name: 'email', Value: email});
 
         return new Promise( (resolve, reject) => (
-            userPool.signUp(email, password, [], null, (err, result) => {
+            userPool.signUp(email, password, [attributeEmail], null, (err, result) => {
                 if (err) {
                     reject(err);
                     return;
