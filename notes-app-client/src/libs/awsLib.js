@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+import {CognitoUserPool} from 'amazon-cognito-identity-js';
 import config from '../config.js';
 import sigV4Client from './sigV4Client';
 
@@ -18,8 +19,11 @@ export function getAwsCredentials(userToken) {
     return AWS.config.credentials.getPromise();
 }
 
-export async function invokeApig({path, method = 'GET', headers = {}, queryParams = {}, body }, userToken) {
-    await getAwsCredentials(userToken);
+export async function invokeApig({path, method = 'GET', headers = {}, queryParams = {}, body }) {
+    if (!await authUser()) throw new Error('User not logged in');
+    
+    // await getAwsCredentials(userToken);
+
     const signedRequest = sigV4Client.newClient({
         accessKey: AWS.config.credentials.accessKeyId,
         secretKey: AWS.config.credentials.secretAccessKey,
@@ -39,11 +43,12 @@ export async function invokeApig({path, method = 'GET', headers = {}, queryParam
         throw new Error(await results.text());
     }
 
-    return results; // this orginally have results.json() but this blows up
+    return results.json();
 }
 
-export async function s3Upload(file, userToken) {
-    await getAwsCredentials(userToken);
+export async function s3Upload(file) {
+    if (!await authUser()) throw new Error('User not logged in');
+    // await getAwsCredentials(userToken);
 
     const s3 = new AWS.S3({
         params: {
@@ -58,4 +63,58 @@ export async function s3Upload(file, userToken) {
         ContentType: file.type,
         ACL: 'public-read',
     }).promise();
+}
+
+export async function authUser() {
+    if (AWS.config.credentials && Date.now() < AWS.config.credentials.expireTime - 60000) true;
+    
+    const currentUser = getCurrentUser();
+    if (currentUser === null) false;
+    
+    const userToken = await getUserToken(currentUser);
+    await getAwsCredentials(userToken);
+    return true;
+}
+
+export function signOutUser() {
+    const currentUser = getCurrentUser();
+    if (currentUser !== null) currentUser.signOut();
+
+    if (AWS.config.credentials) {
+        AWS.config.credentials.clearCacheId();
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({});
+    }
+}
+
+const getUserToken = (currentUser) => {
+    return new Promise( (resolve, reject) => {
+        currentUser.getSession( (err, session) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(session.getIdToken().getJwtToken());
+        })
+    })
+}
+
+const getCurrentUser = () => {
+    const userPool = new CognitoUserPool({
+        UserPoolId: config.cognito.USER_POOL_ID,
+        ClientId: config.cognito.APP_CLIENT_ID,
+    });
+    return userPool.getCurrentUser();
+}
+
+getAwsCredentials = (userToken) => {
+    const authenticator = `cognito-idp.${config.cognito.REGION}.amazonaws.com/${config.cognito.USER_POOL_ID}`;
+    AWS.config.update({region: config.cognito.REGION});
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: config.cognito.IDENTITY_POOL_ID,
+        Logins: {
+            [authenticator]: userToken,
+        }
+    });
+
+    return AWS.config.credentials.getPromise();
 }
