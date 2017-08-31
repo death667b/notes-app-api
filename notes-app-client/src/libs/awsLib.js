@@ -50,10 +50,10 @@ export async function s3Upload(file) {
 }
 
 export async function authUser() {
-    if (AWS.config.credentials && Date.now() < AWS.config.credentials.expireTime - 60000) true;
+    if (AWS.config.credentials && Date.now() < AWS.config.credentials.expireTime - 60000) return true;
     
     const currentUser = getCurrentUser();
-    if (currentUser === null) false;
+    if (currentUser === null) return false;
     
     const userToken = await getUserToken(currentUser);
     await getAwsCredentials(userToken);
