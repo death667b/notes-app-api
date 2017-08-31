@@ -6,7 +6,7 @@ import Home from './containers/Home';
 import NewNote from './containers/NewNote';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
-import NotFound from './components/NotFound';
+import NotFound from './containers/NotFound';
 
 export default ({childProps}) => (
   <Switch>
