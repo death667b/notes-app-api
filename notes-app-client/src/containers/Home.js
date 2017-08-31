@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {PageHeader, ListGroup} from 'react-bootstrap';
 import './Home.css';
 
-class Home extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
 
@@ -46,5 +46,3 @@ class Home extends Component {
       );
   }
 }
-
-export default Home;
