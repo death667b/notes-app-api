@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
 import {HelpBlock, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
-import {AuthenticationDetails, CognitoUserPool, CognitoUserAttribute} from 'amazon-cognito-identity-js';
+import {AuthenticationDetails, CognitoUserPool} from 'amazon-cognito-identity-js';
 import LoaderButton from '../components/LoaderButton';
 import config from '../config.js';
 import './Signup.css';
 
-class Signup extends Component {
+export default class Signup extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             isLoading: false,
-            username: '',
+            email: '',
             password: '',
             confirmPassword: '',
             confirmationCode: '',
@@ -21,7 +20,7 @@ class Signup extends Component {
     }
 
     validateForm = () => {
-        return this.state.username.length > 0 
+        return this.state.email.length > 0 
             && this.state.password.length > 0
             && this.state.password === this.state.confirmPassword;
     }
@@ -42,7 +41,7 @@ class Signup extends Component {
         this.setState({isLoading: true});
         
         try {
-            const newUser = await this.signup(this.state.username, this.state.password);
+            const newUser = await this.signup(this.state.email, this.state.password);
             this.setState({
                 newUser,
             })
@@ -60,13 +59,13 @@ class Signup extends Component {
 
         try {
             await this.confirm(this.state.newUser, this.state.confirmationCode);
-            const userToken = await this.authenticate(
+            await this.authenticate(
                 this.state.newUser,
-                this.state.username,
+                this.state.email,
                 this.state.password,
             );
 
-            this.props.updateUserToken(userToken);
+            this.props.userHasAuthenticated(true);
             this.props.history.push('/');
         } catch(e) {
             alert(e);
@@ -74,15 +73,15 @@ class Signup extends Component {
         }
     }
 
-    signup = (username, password) => {
+    signup = (email, password) => {
         const userPool = new CognitoUserPool({
             UserPoolId: config.cognito.USER_POOL_ID,
             ClientId: config.cognito.APP_CLIENT_ID,
         });
-        const attributeEmail = new CognitoUserAttribute({Name: 'email', Value: username});
+        // const attributeEmail = new CognitoUserAttribute({Name: 'email', Value: username});
 
         return new Promise( (resolve, reject) => (
-            userPool.signUp(username, password, [attributeEmail], null, (err, result) => {
+            userPool.signUp(email, password, [], null, (err, result) => {
                 if (err) {
                     reject(err);
                     return;
@@ -106,16 +105,16 @@ class Signup extends Component {
         ));
     }
 
-    authenticate = (user, username, password) => {
+    authenticate = (user, email, password) => {
         const authenticationData = {
-            Username: username,
+            Username: email,
             Password: password,
         };
         const authenticationDetails = new AuthenticationDetails(authenticationData);
 
         return new Promise( (resolve, reject) => (
             user.authenticateUser(authenticationDetails, {
-                onSuccess: (result) => resolve(result.getIdToken().getJwtToken()),
+                onSuccess: (result) => resolve(),
                 onFailure: (err) => reject(err),
             })
         ));
@@ -148,12 +147,12 @@ class Signup extends Component {
     renderForm = () => {
         return (
             <form onSubmit={this.handleSubmit}>
-                <FormGroup controlId='username' bsSize='large'>
+                <FormGroup controlId='email' bsSize='large'>
                     <ControlLabel>Email</ControlLabel>
                     <FormControl
                         autoFocus
                         type='email'
-                        value={this.state.username}
+                        value={this.state.email}
                         onChange={this.handleChange} />
                 </FormGroup>
                 <FormGroup controlId='password' bsSize='large'>
@@ -194,5 +193,3 @@ class Signup extends Component {
         )
     }
 }
-
-export default withRouter(Signup);
