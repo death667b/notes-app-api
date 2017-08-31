@@ -15,6 +15,7 @@ class App extends Component {
     this.state = {
       userToken: null,
       isLoadingUserToken: true,
+      isAuthenticated: false,
     }
   }
 
@@ -34,6 +35,10 @@ class App extends Component {
     }
 
     this.setState({isLoadingUserToken: false});
+  }
+
+  userHasAuthenticated = (authenticated) => {
+    this.setState({isAuthenticated: authenticated});
   }
 
   getCurrentUser = () => {
@@ -81,7 +86,9 @@ class App extends Component {
   render() {
     const childProps = {
       userToken: this.state.userToken,
-      updateUserToken: this.updateUserToken,      
+      updateUserToken: this.updateUserToken,
+      isAuthenticated: this.state.isAuthenticated,
+      userHasAuthenticated: this.userHasAuthenticated, 
     }
 
     return !this.state.isLoadingUserToken && (
