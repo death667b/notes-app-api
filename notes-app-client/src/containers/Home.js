@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {PageHeader, ListGroup} from 'react-bootstrap';
+import {PageHeader, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {invokeApig} from '../libs/awsLib';
 import './Home.css';
 
@@ -31,7 +31,23 @@ export default class Home extends Component {
   }
 
   renderNotesList = (notes) => {
-    return <div><p>Notes will go here..</p></div>;
+    return [{}].concat(notes).map(
+      (note, i) => 
+        i !== 0
+          ? <ListGroupItem
+            key={note.noteId}
+            href={`/notes/${note.noteId}`}
+            onClick={this.handleNoteClick}
+            header={note.content.trim().split('\n')[0]} > 
+              {'Created: ' + new Date(note.createdAt).toLocaleString()}
+          </ ListGroupItem>
+          : <ListGroupItem 
+            key='new'
+            href='/notes/new'
+            onClick={this.handleNoteClick} >
+              <h4><b>{'\uFF0B'}</b> Create a new note</h4>
+            </ListGroupItem>
+    );
   }
 
   renderLander = () => {
