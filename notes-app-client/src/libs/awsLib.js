@@ -5,8 +5,6 @@ import sigV4Client from './sigV4Client';
 
 export async function invokeApig({path, method = 'GET', headers = {}, queryParams = {}, body }) {
     if (!await authUser()) throw new Error('User not logged in');
-    
-    // await getAwsCredentials(userToken);
 
     const signedRequest = sigV4Client.newClient({
         accessKey: AWS.config.credentials.accessKeyId,
@@ -32,7 +30,6 @@ export async function invokeApig({path, method = 'GET', headers = {}, queryParam
 
 export async function s3Upload(file) {
     if (!await authUser()) throw new Error('User not logged in');
-    // await getAwsCredentials(userToken);
 
     const s3 = new AWS.S3({
         params: {
