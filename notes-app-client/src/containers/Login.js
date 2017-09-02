@@ -79,7 +79,7 @@ export default class Login extends Component {
               onChange={this.handleChange} />
           </FormGroup>
           <LoaderButton
-            bloack
+            block
             bsSize='large'
             disabled={!this.validateForm()}
             type='submit'
