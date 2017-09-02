@@ -25,7 +25,8 @@ export async function invokeApig({path, method = 'GET', headers = {}, queryParam
         throw new Error(await results.text());
     }
 
-    return results.json();
+    // return results.json();
+    return results;
 }
 
 export async function s3Upload(file) {
