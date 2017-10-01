@@ -1,0 +1,11 @@
+<CORSConfiguration>
+	<CORSRule>
+		<AllowedOrigin>*</AllowedOrigin>
+		<AllowedMethod>GET</AllowedMethod>
+		<AllowedMethod>PUT</AllowedMethod>
+		<AllowedMethod>POST</AllowedMethod>
+		<AllowedMethod>HEAD</AllowedMethod>
+		<MaxAgeSeconds>3000</MaxAgeSeconds>
+		<AllowedHeader>*</AllowedHeader>
+	</CORSRule>
+</CORSConfiguration>
