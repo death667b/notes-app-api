@@ -40,6 +40,12 @@ export default class Notes extends Component {
         ? str
         : str.substr(0, 20) + '...' + str.substr(str.length - 20, str.length);
 
+    handleChange = event => {
+        this.setState({
+            [event.target.id]: event.target.value
+        })
+    }
+
     handleFileChange = event => this.file = event.target.files[0];
 
     saveNote = note => invokeApig({
@@ -96,7 +102,7 @@ export default class Notes extends Component {
                     <form onSubmit={this.handleSubmit}>
                         <FormGroup controlId='content'>
                             <FormControl 
-                                onChange={this.handleFileChange}
+                                onChange={this.handleChange}
                                 value={this.state.content}
                                 componentClass='textarea'
                             />
