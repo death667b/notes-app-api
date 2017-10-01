@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {invokeApig} from '../libs/awsLib';
+import {invokeApig, s3Upload} from '../libs/awsLib';
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import LoaderButton from '../components/LoaderButton';
 import config from '../config';
@@ -42,7 +42,14 @@ export default class Notes extends Component {
 
     handleFileChange = event => this.file = event.target.files[0];
 
+    saveNote = note => invokeApig({
+        path: `/notes/${this.props.match.params.id}`,
+        method: 'put',
+        body: note
+    })
+
     handleSubmit = async event => {
+        let uploadFilename;
         event.preventDefault();
 
         if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
@@ -51,6 +58,23 @@ export default class Notes extends Component {
         }
 
         this.setState({ isLoading: true });
+
+        try {
+            if (this.file) {
+                uploadFilename = (await s3Upload(this.file))
+                    .Location;
+            }
+
+            await this.saveNote({
+                ...this.state.note,
+                content: this.state.content,
+                attachment: uploadFilename || this.state.note.attachment
+            });
+            this.props.history.push('/');
+        } catch(e) {
+            alert(e);
+            this.setState({ isLoading: false });
+        }
     }
 
     handleDelete = async event => {
