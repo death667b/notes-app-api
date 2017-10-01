@@ -1,7 +1,7 @@
-import React, {component} from 'react';
+import React, {Component} from 'react';
 import {invokeApig} from '../libs/awsLib';
 
-export default class Notes extends component {
+export default class Notes extends Component {
     constructor(props) {
         super(props);
 
@@ -30,6 +30,10 @@ export default class Notes extends component {
     }
 
     render() {
-        return <div className='notes' />;
+        return (<div className='notes'>
+            <p>{this.props.match.params.id}</p>
+            <p>{this.state.content}</p>
+            </div>
+            );
     }
 }
