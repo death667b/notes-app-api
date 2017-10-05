@@ -1,13 +1,17 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 
-export default ({component: C, props: cProps, ...rest}) =>
-    <Route {...rest} 
-        render={props => !cProps.isAuthenticated
-            ? <C {...props} {...cProps} />
-            : <Redirect to = '/' />
-        }
-    />;
+export default ({component: C, props: cProps, ...rest}) => {
+    const redirect = queryString('redirect');
+    return (
+        <Route {...rest} 
+            render={props => !cProps.isAuthenticated
+                ? <C {...props} {...cProps} />
+                : <Redirect to = {redirect === '' || redirect === null ? "/" : redirect} />
+            }
+        />
+    );
+}
 
 const queryString = (name, url = window.location.href) => {
     name = name.replace(/[[]]/g, "\\$&");
