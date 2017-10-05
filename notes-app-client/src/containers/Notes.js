@@ -83,6 +83,11 @@ export default class Notes extends Component {
         }
     }
 
+    deleteNote = () => invokeApig({
+        path: `/notes/${this.props.match.params.id}`,
+        method: 'DELETE'
+    });
+
     handleDelete = async event => {
         event.preventDefault();
 
@@ -93,6 +98,14 @@ export default class Notes extends Component {
         if (!confirmed) return;
 
         this.setState({ isDeleting: true });
+
+        try {
+            await this.deleteNote();
+            this.props.history.push('/');
+       } catch(e) {
+           alert(e);
+           this.setState({ isDeleting: false });
+       }
     }
 
     render() {
@@ -143,6 +156,7 @@ export default class Notes extends Component {
                             bsStyle='danger'
                             bsSize='large'
                             isLoading={this.state.isDeleting}
+                            onClick={this.handleDelete}
                             text='Delete'
                             loadingText='...Deleting'
                         />
