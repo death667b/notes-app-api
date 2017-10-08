@@ -16,6 +16,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "predeploy": "npm run build",
+    "deploy": "aws s3 sync build/ s3://spinnys-notes-app-assets",
+    "postdeploy": "aws cloudfront create-invalidation --distribution-id E125X9X0BM9FI9 --paths '/*' && aws cloudfront create-invalidation --distribution-id E1PZRWJULEO31W --paths '/*'",
     "eject": "react-scripts eject"
   }
 }
